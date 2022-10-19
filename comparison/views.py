@@ -2,12 +2,13 @@ from django.shortcuts import render
 
 from rest_framework import generics
 
-from .models import Category, Product, Store
+from .models import Category, Product, Store, Price
 from .serializers import (
     CategorySerializer, 
     ProductListSerializer, 
     ProductCreationSerializer,
-    StoreSerializer
+    StoreSerializer,
+    PriceSerializer
 )
 
 class CategoryView(generics.ListCreateAPIView):
@@ -29,3 +30,8 @@ class ProductView(generics.ListCreateAPIView):
 class StoreView(generics.ListCreateAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
+
+
+class PriceView(generics.ListCreateAPIView):
+    queryset = Price.objects.all()
+    serializer_class = PriceSerializer

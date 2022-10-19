@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Store, Location
+from .models import (
+    Category, 
+    Product, 
+    Store,
+    Location, 
+    Price,
+)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -35,9 +41,14 @@ class StoreSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'address', 'location', )
 
     def create(self, validated_data):
-        print(validated_data['location'])
         location = validated_data.pop('location')
         location = Location.objects.create(**location)
         store = Store.objects.create(**validated_data, location=location)
 
         return store
+
+
+class PriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Price
+        fields = ('value', 'product', 'store')
