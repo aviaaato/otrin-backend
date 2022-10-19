@@ -5,3 +5,13 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+class ProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('name', 'image', 'category')
+
+class ProductCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('name', 'image', 'category', 'moderator')
