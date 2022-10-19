@@ -11,6 +11,9 @@ class UserProfile(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -18,10 +21,15 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     moderator = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.name} ({self.category.name})"
 
 class Location(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
+
+    def __str__(self):
+        return f"lat : {self.longitude}, long: {self.latitude}"
 
 
 class Store(models.Model):
@@ -30,8 +38,14 @@ class Store(models.Model):
     location = models.OneToOneField(Location, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='Price')
 
+    def __str__(self):
+        return f"{self.name} ({self.address})"
+
 
 class Price(models.Model):
     value = models.FloatField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.product.name}: {self.value} Ar at {self.store.name}"
