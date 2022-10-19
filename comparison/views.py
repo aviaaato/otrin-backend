@@ -2,8 +2,13 @@ from django.shortcuts import render
 
 from rest_framework import generics
 
-from .models import Category, Product
-from .serializers import CategorySerializer, ProductListSerializer, ProductCreationSerializer
+from .models import Category, Product, Store
+from .serializers import (
+    CategorySerializer, 
+    ProductListSerializer, 
+    ProductCreationSerializer,
+    StoreSerializer
+)
 
 class CategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -12,7 +17,6 @@ class CategoryView(generics.ListCreateAPIView):
 
 class ProductView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductCreationSerializer
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':
@@ -20,3 +24,8 @@ class ProductView(generics.ListCreateAPIView):
 
         elif self.request.method == 'GET':
             return ProductListSerializer
+
+
+class StoreView(generics.ListCreateAPIView):
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer

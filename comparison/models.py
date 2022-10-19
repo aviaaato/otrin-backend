@@ -28,6 +28,9 @@ class Location(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
 
+    class Meta:
+        unique_together = ("longitude", "latitude")
+
     def __str__(self):
         return f"lat : {self.longitude}, long: {self.latitude}"
 
