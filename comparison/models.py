@@ -6,6 +6,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     verified = models.BooleanField()
     premium = models.BooleanField()
+    moderator = models.BooleanField()
 
 
 class Category(models.Model):
