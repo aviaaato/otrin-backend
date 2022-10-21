@@ -16,6 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
     class Meta:
         model = Product
         fields = ('id', 'name', 'image', 'category')
@@ -49,6 +50,8 @@ class StoreSerializer(serializers.ModelSerializer):
 
 
 class PriceSerializer(serializers.ModelSerializer):
+    product = ProductListSerializer()
+    store = StoreSerializer()
     class Meta:
         model = Price
         fields = ('value', 'product', 'store')
