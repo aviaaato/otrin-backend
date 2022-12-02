@@ -1,11 +1,13 @@
 from rest_framework import serializers
 
 from .models import (
-    Category, 
-    Product, 
+    Category,
+    Product,
     Store,
-    Location, 
+    Location,
     Price,
+    UserProfile,
+    User
 )
 
 
@@ -17,6 +19,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+
     class Meta:
         model = Product
         fields = ('id', 'name', 'image', 'category')
@@ -52,11 +55,48 @@ class StoreSerializer(serializers.ModelSerializer):
 class PriceSerializer(serializers.ModelSerializer):
     product = ProductListSerializer()
     store = StoreSerializer()
+
     class Meta:
         model = Price
         fields = ('value', 'product', 'store')
 
 
-class ProductPriceSerializer(serializers.ModelSerializer):
-    # class Meta:
-    pass
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # fields = ('moderator',)
+        fields = ('email', 'password', 'first_name', 'last_name', 'profile')
+        extra_kwargs = {'password': {'write_only': True}}
+    
+    def create(self, validated_data):
+        print(validated_data)
+        profile_data = validated_data.pop('profile')
+
+        password = validated_data.pop('password')
+        user_profile = UserProfile(**validated_data)
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+
+        return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    profile = UserProfileSerializer()
+
+    class Meta:
+        # model = UserProfile
+        fields = ('moderator',)
+        # fields = ('email', 'password', 'first_name', 'last_name', 'profile')
+
+    # def create(self, validated_data):
+    #     print(validated_data)
+    #     profile_data = validated_data.pop('profile')
+
+    #     password = validated_data.pop('password')
+    #     user_profile = UserProfile(**validated_data)
+    #     user = User(**validated_data)
+    #     user.set_password(password)
+    #     user.save()
+
+    #     return user

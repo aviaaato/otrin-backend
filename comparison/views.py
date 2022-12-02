@@ -7,14 +7,21 @@ from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from .models import Category, Product, Store, Price
+from .models import Category, Product, Store, Price, UserProfile
 from .serializers import (
     CategorySerializer, 
     ProductListSerializer, 
     ProductCreationSerializer,
     StoreSerializer,
-    PriceSerializer
+    PriceSerializer,
+    UserSerializer,
 )
+
+
+class UserView(generics.CreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserSerializer
+
 
 class CategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -41,9 +48,7 @@ class PriceView(generics.ListCreateAPIView):
     queryset = Price.objects.all()
     serializer_class = PriceSerializer
 
-"""
-    GET /product/{product_id}/prices
-"""
+
 class ProductPriceView(APIView):
     def get(self, request, pk, format=None):
         product = Product.objects.get(pk=pk)
