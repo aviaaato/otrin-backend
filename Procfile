@@ -1,1 +1,1 @@
-web: gunicorn 'otrin.wsgi'
+web: python manage.py migrate && gunicorn 'otrin.wsgi'
