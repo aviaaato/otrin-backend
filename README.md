@@ -9,6 +9,12 @@ Commit messages follows the [Udacity Git Commit Style Guide](http://udacity.gith
 
 ### Authentication
 
+Authentication endpoint for end users : `/token`
+Required fields : `email` and `password`
+
+Authentication for website administrator : `/admin`
+Rquired fields : `email` and `password` (same as above)
+
 ### Errors
 
 ### Endpoints
